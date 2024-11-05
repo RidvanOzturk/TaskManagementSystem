@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ServiceLayer\TaskManagementSystem.Service.csproj" />
+    <ProjectReference Include="..\TaskManagementSystem.Service\TaskManagementSystem.Service.csproj" />
   </ItemGroup>
 
 </Project>

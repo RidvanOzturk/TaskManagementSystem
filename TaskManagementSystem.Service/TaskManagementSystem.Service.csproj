@@ -14,6 +14,6 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\DataLayer\TaskManagementSystem.Data.csproj" />
+		<ProjectReference Include="..\TaskManagementSystem.Data\TaskManagementSystem.Data.csproj" />
 	</ItemGroup>
 </Project>

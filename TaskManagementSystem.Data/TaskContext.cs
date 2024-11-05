@@ -4,7 +4,7 @@ using TaskManagementSystem.Data.Entities;
 using Task = TaskManagementSystem.Data.Entities.Task;
 using TaskStatus = TaskManagementSystem.Data.Entities.TaskStatus;
 
-namespace DataLayer;
+namespace TaskManagementSystem.Data;
 
 public class TaskContext(DbContextOptions<TaskContext> options) : DbContext(options)
 {
