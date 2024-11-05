@@ -3,14 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagementSystem", "TaskManagementSystem\TaskManagementSystem.csproj", "{DC395C93-5BC5-4DD9-B2B9-99B1B6796561}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagementSystem.Api", "TaskManagementSystem\TaskManagementSystem.Api.csproj", "{DC395C93-5BC5-4DD9-B2B9-99B1B6796561}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6A47CD48-BC41-4B83-B593-1904242BEE14} = {6A47CD48-BC41-4B83-B593-1904242BEE14}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{8D563C24-DA2F-4B96-B421-08DCD0DC6466}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagementSystem.Data", "DataLayer\TaskManagementSystem.Data.csproj", "{8D563C24-DA2F-4B96-B421-08DCD0DC6466}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLayer", "ServiceLayer\ServiceLayer.csproj", "{6A47CD48-BC41-4B83-B593-1904242BEE14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagementSystem.Service", "ServiceLayer\TaskManagementSystem.Service.csproj", "{6A47CD48-BC41-4B83-B593-1904242BEE14}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8D563C24-DA2F-4B96-B421-08DCD0DC6466} = {8D563C24-DA2F-4B96-B421-08DCD0DC6466}
 	EndProjectSection

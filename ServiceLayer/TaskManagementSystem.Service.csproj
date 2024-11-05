@@ -7,10 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Configurations\" />
-    <Folder Include="Entities\" />
+    <Folder Include="Contacts\" />
     <Folder Include="DTOs\" />
-    <Folder Include="Repositories\" />
+    <Folder Include="Implementations\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\DataLayer\TaskManagementSystem.Data.csproj" />
+	</ItemGroup>
 </Project>
