@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TaskManagementSystem.Service.Implementations;
+using TaskManagementSystem.Service.Contacts;
 
 namespace TaskManagementSystem.Api.Controllers;
 
-public class AuthController : Controller
+public class AuthController(IAuthService authService) : Controller
 {
     [HttpGet]
     public IActionResult Login()
