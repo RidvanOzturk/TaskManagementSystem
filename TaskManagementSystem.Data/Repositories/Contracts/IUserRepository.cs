@@ -11,6 +11,6 @@ namespace TaskManagementSystem.Data.Repositories.Contracts;
 public interface IUserRepository
 {
     Task Create(User? user);
-    Task<User?> GetByNameAsync(string name, string mail);
+    Task<User?> GetByNameAsync(string name);
     Task<bool> CommitAsync();
 }

@@ -3,9 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskManagementSystem.Data.Entities;
+using TaskManagementSystem.Service.DTOs;
 
 namespace TaskManagementSystem.Service.Extensions;
 
-public class MapperExtension
+public static class MapperExtension
 {
+    public static User UserMap(this RegisterRequestDTO registerRequest)
+    {
+        return new User
+        {
+            Id = ,
+            Name = registerRequest.Name,
+            PasswordHash = registerRequest.Password
+        };
+    }
 }

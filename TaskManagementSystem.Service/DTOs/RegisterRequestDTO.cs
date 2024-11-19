@@ -8,7 +8,6 @@ namespace TaskManagementSystem.Service.DTOs;
 
 public class RegisterRequestDTO
 {
-    public required string username { get; set; }
-    public required string password { get; set; }
-    public required string email { get; set; }
+    public required string Name { get; set; }
+    public required string Password { get; set; }
 }

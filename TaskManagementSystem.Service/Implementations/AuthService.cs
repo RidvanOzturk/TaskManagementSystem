@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using TaskManagementSystem.Data.Repositories.Contracts;
 using TaskManagementSystem.Service.Contacts;
 using TaskManagementSystem.Service.DTOs;
+using TaskManagementSystem.Service.Extensions;
 
 namespace TaskManagementSystem.Service.Implementations;
 
@@ -17,13 +18,13 @@ public class AuthService(IHttpContextAccessor httpContextAccessor, IUserReposito
 {
     public async Task<bool> RegisterAsync(RegisterRequestDTO requestDTO)
     {
-        var user = await userRepository.GetByNameAsync(requestDTO.username, requestDTO.email);
+        var user = await userRepository.GetByNameAsync(requestDTO.Name);
         if (user != null)
         {
             return false;
         }
 
-        var hashedPassword = BCrypt.Net.BCrypt.HashPassword(requestDTO.password);
+        var hashedPassword = BCrypt.Net.BCrypt.HashPassword(requestDTO.Password);
         var newUser = requestDTO.UserMap();
         await userRepository.Create(newUser);
         var result = await userRepository.CommitAsync();
