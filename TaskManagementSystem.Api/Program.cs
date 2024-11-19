@@ -1,5 +1,7 @@
 using TaskManagementSystem.Data;
 using Microsoft.EntityFrameworkCore;
+using TaskManagementSystem.Service.Contacts;
+using TaskManagementSystem.Service.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<TaskContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("TaskContext")));
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddAuthentication("Cookies").AddCookie(options =>
+{
+    options.LoginPath = "/Auth/Login";
+    options.LogoutPath = "/Auth/Logout";
+    options.AccessDeniedPath = "/Auth/AccessDenied";
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+});
+builder.Services.AddScoped<IAuthService, AuthService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
