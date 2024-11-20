@@ -16,7 +16,7 @@ public class UserRepository(TaskContext taskContext) : IUserRepository
     {
        await taskContext.Users.AddAsync(user);
     }
-    public async Task<User?> GetByNameAsync(string name, string mail)
+    public async Task<User?> GetByNamePassAsync(string name, string password)
     {
         return await taskContext.Users
             .FirstAsync(x => x.Name == name);

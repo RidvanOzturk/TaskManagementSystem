@@ -14,9 +14,10 @@ public static class MapperExtension
     {
         return new User
         {
-            Id = ,
+            Id = registerRequest.Id,
             Name = registerRequest.Name,
-            PasswordHash = registerRequest.Password
+            PasswordHash = registerRequest.Password,
+            Role = registerRequest.Role
         };
     }
 }

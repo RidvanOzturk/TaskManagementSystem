@@ -14,11 +14,11 @@ using TaskManagementSystem.Service.Extensions;
 
 namespace TaskManagementSystem.Service.Implementations;
 
-public class AuthService(IHttpContextAccessor httpContextAccessor, IUserRepository userRepository) : IAuthService
+public class AuthService(IHttpContextAccessor httpContextAccessor, IUserRepository userRepository, IConfiguration configuration) : IAuthService
 {
     public async Task<bool> RegisterAsync(RegisterRequestDTO requestDTO)
     {
-        var user = await userRepository.GetByNameAsync(requestDTO.Name);
+        var user = await userRepository.GetByNamePassAsync(requestDTO.Name,requestDTO.Password);
         if (user != null)
         {
             return false;
@@ -34,7 +34,7 @@ public class AuthService(IHttpContextAccessor httpContextAccessor, IUserReposito
 
     public async Task<List<Claim>> LoginAsync(string username, string password)
     {
-        var user = await userRepository.GetByNameandEmailAsync(username, password);
+        var user = await userRepository.GetByNamePassAsync(username, password);
         if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
         {
             return new List<Claim>();
@@ -43,8 +43,7 @@ public class AuthService(IHttpContextAccessor httpContextAccessor, IUserReposito
 
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, user.Username),
-            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Name, user.Name),
             new Claim("UserId", user.Id.ToString())
         };
         var claimsIdentity = new ClaimsIdentity(claims, "Cookies");
@@ -54,10 +53,7 @@ public class AuthService(IHttpContextAccessor httpContextAccessor, IUserReposito
         };
 
         await httpContextAccessor.HttpContext.SignInAsync(
-            "Cookies",
-            new ClaimsPrincipal(claimsIdentity),
-            authProperties
-        );
+            "Cookies", new ClaimsPrincipal(claimsIdentity), authProperties);
         return claims;
 
 
