@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,36 +33,23 @@ public class AuthService(IHttpContextAccessor httpContextAccessor, IUserReposito
         return result != null;
     }
 
-    public async Task<List<Claim>> LoginAsync(string username, string password)
-    {
-        var user = await userRepository.GetByNamePassAsync(username, password);
-        if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
-        {
-            return new List<Claim>();
-        }
+    //public async Task<List<Claim>> LoginAsync(LoginRequestDTO loginRequestDTO)
+    //{
+    //    var user = await userRepository.GetByNamePassAsync(loginRequestDTO.Name, loginRequestDTO.Password);
+    //    if (user == null || !BCrypt.Net.BCrypt.Verify(loginRequestDTO.Password, user.PasswordHash))
+    //    {
+    //        return new List<Claim>();
+    //    }
 
 
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, user.Name),
-            new Claim("UserId", user.Id.ToString())
-        };
-        var claimsIdentity = new ClaimsIdentity(claims, "Cookies");
-        var authProperties = new AuthenticationProperties
-        {
-            IsPersistent = true,
-        };
-
-        await httpContextAccessor.HttpContext.SignInAsync(
-            "Cookies", new ClaimsPrincipal(claimsIdentity), authProperties);
-        return claims;
-
-
-
-    }
-
-    public async Task LogoutAsync()
-    {
-        await httpContextAccessor.HttpContext.SignOutAsync("Cookies");
-    }
+    //    var claims = new List<Claim>
+    //    {
+    //        new Claim(ClaimTypes.Name, user.Name),
+    //        new Claim(ClaimTypes.Role, user.Role),
+    //        new Claim("UserId", user.Id.ToString())
+    //    };
+    //    var claimsIdentity = new ClaimsIdentity(claims, "Cookie");
+    //    var authProperties = new AuthenticationProperties();
+    //    await httpContextAccessor.HttpContext
+    //}
 }

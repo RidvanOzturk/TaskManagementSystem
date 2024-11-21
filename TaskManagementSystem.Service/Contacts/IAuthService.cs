@@ -11,6 +11,5 @@ namespace TaskManagementSystem.Service.Contacts;
 public interface IAuthService
 {
     Task<bool> RegisterAsync(RegisterRequestDTO requestDTO);
-    Task<List<Claim>> LoginAsync(string username, string password);
-    Task LogoutAsync();
+   // Task<List<Claim>> LoginAsync(LoginRequestDTO loginRequestDTO);
 }
