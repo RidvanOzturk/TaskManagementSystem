@@ -33,23 +33,23 @@ public class AuthService(IHttpContextAccessor httpContextAccessor, IUserReposito
         return result != null;
     }
 
-    //public async Task<List<Claim>> LoginAsync(LoginRequestDTO loginRequestDTO)
-    //{
-    //    var user = await userRepository.GetByNamePassAsync(loginRequestDTO.Name, loginRequestDTO.Password);
-    //    if (user == null || !BCrypt.Net.BCrypt.Verify(loginRequestDTO.Password, user.PasswordHash))
-    //    {
-    //        return new List<Claim>();
-    //    }
+    public async Task<List<Claim>> LoginAsync(LoginRequestDTO loginRequestDTO)
+    {
+        var user = await userRepository.GetByNamePassAsync(loginRequestDTO.Name, loginRequestDTO.Password);
+        if (user == null || !BCrypt.Net.BCrypt.Verify(loginRequestDTO.Password, user.PasswordHash))
+        {
+            return new List<Claim>();
+        }
 
 
-    //    var claims = new List<Claim>
-    //    {
-    //        new Claim(ClaimTypes.Name, user.Name),
-    //        new Claim(ClaimTypes.Role, user.Role),
-    //        new Claim("UserId", user.Id.ToString())
-    //    };
-    //    var claimsIdentity = new ClaimsIdentity(claims, "Cookie");
-    //    var authProperties = new AuthenticationProperties();
-    //    await httpContextAccessor.HttpContext
-    //}
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.Name),
+            new Claim(ClaimTypes.Role, user.Role),
+            new Claim("UserId", user.Id.ToString())
+        };
+        var claimsIdentity = new ClaimsIdentity(claims, "Cookie");
+        var authProperties = new AuthenticationProperties();
+        await httpContextAccessor.HttpContext.
+    }
 }

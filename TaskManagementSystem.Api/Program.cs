@@ -31,7 +31,7 @@ builder.Services.AddIdentityCore<IdentityUser>()
     .AddEntityFrameworkStores<TaskContext>()
     .AddApiEndpoints();
 var app = builder.Build();
-
+app.MapIdentityApi<IdentityUser>();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
