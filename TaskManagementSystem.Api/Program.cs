@@ -1,52 +1,55 @@
 using TaskManagementSystem.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using TaskManagementSystem.Service.Contacts;
 using TaskManagementSystem.Service.Implementations;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddAuthentication()
-                .AddBearerToken(IdentityConstants.BearerScheme);
-builder.Services.AddAuthorizationBuilder();
-builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+// JWT Auth bu
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = true;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false, 
+        ValidateAudience = false, 
+        ValidateLifetime = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"])),
+        ClockSkew = TimeSpan.Zero 
+    };
+});
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+});
 builder.Services.AddDbContext<TaskContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("TaskContext")));
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-{
-    options.Cookie.Name = "Cookie";
-    options.LoginPath = "/Auth/Login";
-    options.AccessDeniedPath = "/Auth/Login";
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
-});
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddIdentityCore<IdentityUser>()
     .AddEntityFrameworkStores<TaskContext>()
-    .AddApiEndpoints();
+    .AddDefaultTokenProviders();
 var app = builder.Build();
-app.MapIdentityApi<IdentityUser>();
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
-
-
 app.UseRouting();
-app.UseHttpsRedirection();
+app.UseAuthentication();  
 app.UseAuthorization();
 
 app.MapControllerRoute(

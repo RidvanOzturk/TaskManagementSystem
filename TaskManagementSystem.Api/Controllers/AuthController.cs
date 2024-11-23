@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TaskManagementSystem.Service.Implementations;
 using TaskManagementSystem.Service.Contacts;
+using TaskManagementSystem.Service.DTOs;
 
 namespace TaskManagementSystem.Api.Controllers;
 
@@ -16,27 +17,31 @@ public class AuthController(IAuthService authService) : Controller
     {
         return View();
     }
+
     [AllowAnonymous]
     [HttpPost("login")]
-    public async Task<IActionResult> Login(string username, string password)
+    public async Task<IActionResult> Login([FromBody] LoginRequestDTO model)
     {
         if (!ModelState.IsValid)
         {
-            return View();
+            return BadRequest("Invalid model");
         }
-        //var claims = await authService.LoginAsync(username, password);
-        //if (claims.Count > 0)
-        //{
-        //    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        //    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-        //    return RedirectToAction("Index", "Home");
-        //}
-        //else
-        //{
-        //    ModelState.AddModelError("", "Invalid username or password");
-        //    return View();
-        //}
-        return View();
+        var token = await authService.LoginAsync(model);
+
+        if (token != null)
+        {
+            return Ok(new { Token = token });
+        }
+        else
+        {
+            return Unauthorized("Invalid username or password");
+        }
+    }
+
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+        return Ok(new { Message = "Successfully logged out. Please clear your token on the client side." });
     }
 }
